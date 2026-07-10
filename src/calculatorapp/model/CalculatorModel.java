@@ -5,18 +5,33 @@ import java.math.RoundingMode;
 
 import calculatorapp.util.FormatterUtil;
 
+/**
+ * 電卓の計算処理と状態管理を行うモデルクラス。
+ *
+ * 数値入力、演算子入力、計算実行、
+ * クリア処理などのロジックを担当する。
+ */
 public class CalculatorModel {
 
     private InputState state = InputState.READY;
     private String currentInput = "0";
     private BigDecimal leftValue = null;
     private String currentOperator = null;
+    private String displayText = "0";
 
+    /**
+     * CalculatorModelを生成する。
+     */
     public CalculatorModel() {
 
         System.out.println("Model 起動");
     }
 
+    /**
+     * 数字を入力する。
+     *
+     * @param digit 入力された数字
+     */
     public void appendDigit(String digit) {
 
         if (state == InputState.ERROR) {
@@ -41,6 +56,9 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * 小数点を入力する。
+     */
     public void appendDot() {
 
         if (state == InputState.ERROR) {
@@ -58,6 +76,11 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * 演算子を入力する。
+     *
+     * @param operator 入力された演算子
+     */
     public void inputOperator(String operator) {
         if (state == InputState.ERROR) {
             return;
@@ -96,6 +119,9 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * 計算を実行し結果を表示する。
+     */
     public void equalsOp() {
         if (state == InputState.ERROR) {
             return;
@@ -125,6 +151,9 @@ public class CalculatorModel {
         state = InputState.READY;
     }
 
+    /**
+     * 電卓を初期状態に戻す。
+     */
     public void clear() {
         currentInput = "0";
         leftValue = null;
@@ -132,7 +161,17 @@ public class CalculatorModel {
         state = InputState.READY;
     }
 
-    private BigDecimal calculate(BigDecimal left, BigDecimal right, String operator) {
+    /**
+     * 四則演算を実行する。
+     *
+     * @param left     左辺値
+     * @param right    右辺値
+     * @param operator 演算子
+     * @return 計算結果
+     */
+    private BigDecimal calculate(
+            BigDecimal left,
+            BigDecimal right, String operator) {
 
         switch (operator) {
             case "+":
@@ -153,7 +192,12 @@ public class CalculatorModel {
         }
     }
 
+    /**
+     * 表示用文字列を取得する。
+     *
+     * @return 現在の表示内容
+     */
     public String getDisplayText() {
-        return currentInput;
+        return displayText;
     }
 }
