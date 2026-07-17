@@ -40,6 +40,7 @@ public class CalculatorModel {
         if (state == InputState.READY || state == InputState.INPUT_OPERATOR) {
             currentInput = digit;
             state = InputState.INPUT_NUMBER;
+            displayText = currentInput;
             return;
         }
         if (state == InputState.INPUT_NUMBER) {
@@ -52,6 +53,14 @@ public class CalculatorModel {
                 currentInput += digit;
             } else {
                 currentInput += digit;
+            }
+
+            // 表示更新
+            if (leftValue != null && currentOperator != null) {
+                displayText = FormatterUtil.format(leftValue)
+                        + " " + currentOperator + " " + currentInput;
+            } else {
+                displayText = currentInput;
             }
         }
     }
@@ -72,6 +81,14 @@ public class CalculatorModel {
         if (state == InputState.INPUT_NUMBER) {
             if (!currentInput.contains(".")) {
                 currentInput += ".";
+            }
+
+            // 表示更新
+            if (leftValue != null && currentOperator != null) {
+                displayText = FormatterUtil.format(leftValue)
+                        + " " + currentOperator + " " + currentInput;
+            } else {
+                displayText = currentInput;
             }
         }
     }
@@ -103,6 +120,9 @@ public class CalculatorModel {
         if (state == InputState.INPUT_NUMBER && leftValue != null) {
             BigDecimal rightValue = new BigDecimal(currentInput);
             leftValue = calculate(leftValue, rightValue, currentOperator);
+            displayText = FormatterUtil.format(leftValue) + " "
+                    + currentOperator;
+
             if (state == InputState.ERROR) {
                 return;
             }
@@ -111,11 +131,18 @@ public class CalculatorModel {
         if (state == InputState.INPUT_NUMBER) {
             leftValue = new BigDecimal(currentInput);
             currentOperator = operator;
+
+            displayText = FormatterUtil.format(leftValue)
+                    + " "
+                    + currentOperator;
             state = InputState.INPUT_OPERATOR;
             return;
         }
         if (state == InputState.INPUT_OPERATOR) {
             currentOperator = operator;
+
+            displayText = 
+            FormatterUtil.format(leftValue)+" "+currentOperator
         }
     }
 
@@ -149,6 +176,9 @@ public class CalculatorModel {
         leftValue = null;
         currentOperator = null;
         state = InputState.READY;
+
+        displayText = currentInput;
+
     }
 
     /**
@@ -159,6 +189,8 @@ public class CalculatorModel {
         leftValue = null;
         currentOperator = null;
         state = InputState.READY;
+
+        displayText = "0";
     }
 
     /**
@@ -183,7 +215,8 @@ public class CalculatorModel {
             case "÷":
                 if (right.compareTo(BigDecimal.ZERO) == 0) {
                     state = InputState.ERROR;
-                    currentInput = "ERROR";
+                    currentInput = "エラー";
+                    displayText = "エラー";
                     return BigDecimal.ZERO;
                 }
                 return left.divide(right, 10, RoundingMode.HALF_UP);
