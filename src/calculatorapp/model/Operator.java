@@ -1,5 +1,8 @@
 package calculatorapp.model;
 
-public class Operator {
-
+public enum Operator {
+    ADD,
+    SUB,
+    MUL,
+    DIV
 }

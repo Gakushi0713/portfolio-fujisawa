@@ -26,7 +26,7 @@ public class CalculatorFrame extends JFrame {
     private void createDisplay() {
         display = new JLabel("0", SwingConstants.RIGHT);
         // JLabelインスタンスを新しく作成、引数（括弧内の値）で初期値（"0"を右寄せ）の配置を渡す。display変数へ保存
-        display.setFont(new Font("Arial", Font.BOLD, 24));
+        display.setFont(new Font("Meiryo", Font.BOLD, 24));
         // displayの文字設定、新設定（フォント名、文字スタイル、文字サイズ）
         display.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         // displayの枠設定、空のボーダー,10px四方に余白
@@ -51,7 +51,7 @@ public class CalculatorFrame extends JFrame {
             // buttonsという配列内の文字分text変数に入れて最後まで繰り返す（拡張for文）
             JButton button = new JButton(text);
             // text変数をラベルとして表示する新しいbutton(ボタン)オブジェクトを作成
-            button.setFont(new Font("Arial", Font.BOLD, 14));
+            button.setFont(new Font("Meiryo", Font.BOLD, 14));
             // buttonの文字設定、新設定（フォント名、文字スタイル、文字サイズ）
             button.addActionListener(e -> {
                 // buttonにクリック時のイベントリスナーを設置（ラムダ式）
